@@ -1,7 +1,7 @@
 Stable Diffusion 1.4 in MLX
 ================
 
-Run Stable Diffusion 1.4 using MLX.
+Run Stable Diffusion 1.4 on Apple Silicon using MLX.
 
 NovelAI has released the weights for their older SD1.5-based NovelAI Diffusion V2 anime model! I created this repo to be able to run **nai-anime-v2** on an old Mac.
 
@@ -9,7 +9,7 @@ So, by default, this repo uses the Unet and VAE of `NovelAI/nai-anime-v2`. The r
 
 ## Sample Usage
 
-It's very easy to use from the command line:
+Once you clone this repository and install the requirements, you can run the following command to generate an image:
 
 ```bash
 SD_PROMPT="photograph of windy landscape, rainy day, masterpiece" \
