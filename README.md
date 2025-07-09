@@ -1,9 +1,7 @@
 Stable Diffusion 1.4 in MLX
 ================
 
-Run Stable Diffusion 1.4 on Apple Silicon using MLX.
-
-NovelAI has released the weights for their older SD1.5-based NovelAI Diffusion V2 anime model! I created this repo to be able to run **nai-anime-v2** on an old Mac.
+NovelAI has released the weights for their older SD1.5-based NovelAI Diffusion V2 anime model! I created this repo to be able to run **nai-anime-v2** on an old Mac using MLX.
 
 So, by default, this repo uses the Unet and VAE of `NovelAI/nai-anime-v2`. The rest of the components come from `CompVis/stable-diffusion-v1-4`.
 
@@ -24,5 +22,8 @@ The above command will generate an image named `output.png`. You can use the `-o
 
 ## Example Outputs
 
-<img src="https://github.com/user-attachments/assets/95ec53f5-1823-4bf6-b988-78c4d950fb5e" style="width:256px"/>
+The performance is decent. You can get a good image with `SD_STEPS` set to around 28. Even with `SD_STEPS` set to 50 (default), it only takes about 50 seconds to generate an image.
+
 <img src="https://github.com/user-attachments/assets/d0d851f2-8319-41d6-894c-73ce50317028" style="width:256px"/>
+<img src="https://github.com/user-attachments/assets/95ec53f5-1823-4bf6-b988-78c4d950fb5e" style="width:256px"/>
+<img src="https://github.com/user-attachments/assets/8c539f64-b536-4fbe-b598-df6bb491cb6a" style="width:256px"/>
