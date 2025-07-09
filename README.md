@@ -24,5 +24,5 @@ The above command will generate an image named `output.png`. You can use the `-o
 
 ## Example Outputs
 
-<img src="https://github.com/user-attachments/assets/c4abb0ea-b755-486e-97ca-eaad4aec889f" style="width:256px;"/>
+<img src="https://github.com/user-attachments/assets/95ec53f5-1823-4bf6-b988-78c4d950fb5e" style="width:256px"/>
 <img src="https://github.com/user-attachments/assets/d0d851f2-8319-41d6-894c-73ce50317028" style="width:256px"/>
