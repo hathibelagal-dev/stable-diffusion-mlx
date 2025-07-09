@@ -14,9 +14,14 @@ from stable_diffusion import StableDiffusion
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-o", "--output", help="output file name", default="output.png")
+    parser.add_argument("-n", "--no-novelai", help="don't use NovelAI anime model", action="store_true")
     args = parser.parse_args()
 
-    main_model_id = "NovelAI/nai-anime-v2"
+    if args.no_novelai:
+        main_model_id = "CompVis/stable-diffusion-v1-4"
+    else:
+        main_model_id = "NovelAI/nai-anime-v2"
+
     print(f"Loading model {main_model_id}...")
     sd = StableDiffusion(
         unet_model_id=main_model_id,
