@@ -14,8 +14,9 @@ So, by default, this repo uses the Unet and VAE of `NovelAI/nai-anime-v2`. The r
 Once you clone this repository and install the requirements, you can run the following command to generate an image:
 
 ```bash
-SD_PROMPT="photograph of windy landscape, rainy day, masterpiece" \
+SD_PROMPT="flowers, flower field, sunset, no humans" \
 SD_NEGATIVE_PROMPT="humans" \
+SD_SEED=56 \
 python3 t2i_sd.py
 ```
 
