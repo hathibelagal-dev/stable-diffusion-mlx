@@ -7,6 +7,8 @@ NovelAI has released the weights for their older SD1.5-based NovelAI Diffusion V
 
 So, by default, this repo uses the Unet and VAE of `NovelAI/nai-anime-v2`. The rest of the components come from `CompVis/stable-diffusion-v1-4`.
 
+**Note:** SD 1.4 is particularly strong for generating stylized images and art. It uses the same text encoder as SD 1.5, CLIP ViT-L/14, and was trained on subsets of the LAION-5B dataset, specifically "laion-aesthetics v2 5+" for aesthetic quality.
+
 ## Sample Usage
 
 Once you clone this repository and install the requirements, you can run the following command to generate an image:

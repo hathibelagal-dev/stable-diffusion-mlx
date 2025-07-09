@@ -11,7 +11,7 @@ import argparse
 
 from stable_diffusion import StableDiffusion
 
-if __name__ == "__main__":
+def cli_mode():
     parser = argparse.ArgumentParser()
     parser.add_argument("-o", "--output", help="output file name", default="output.png")
     parser.add_argument("-n", "--no-novelai", help="don't use NovelAI anime model", action="store_true")
@@ -31,9 +31,11 @@ if __name__ == "__main__":
     nn.quantize(sd.unet, group_size=32, bits=8)
     sd.ensure_models_are_loaded()
     print("Loaded model successfully!")
-    cfg = 7.5
-    steps = 50
-    seed = int(os.environ.get("SEED", 0))
+    cfg = float(os.environ.get("SD_CFG", 7.5))
+    print(f"Using cfg weight: {cfg}")
+    steps = int(os.environ.get("SD_STEPS", 50))
+    print(f"Using {steps} steps for denoising.")
+    seed = int(os.environ.get("SD_SEED", 0))
     if seed == 0:
         seed = random.randint(0, 2**32 - 1)
     print(f"Using seed: {seed}")
@@ -85,4 +87,6 @@ if __name__ == "__main__":
     print(f"Saving image as {args.output}.")
     im.save(args.output)
 
-    
+if __name__ == "__main__":
+    cli_mode()
+
