@@ -32,21 +32,26 @@ if __name__ == "__main__":
     if seed == 0:
         seed = random.randint(0, 2**32 - 1)
     print(f"Using seed: {seed}")
+    prompt = os.environ.get(
+        "SD_PROMPT",
+        "portrait of a cute kitten, leonardo da vinci style"
+    )
+    print(f"Using prompt: {prompt}")
+    negative_prompt = os.environ.get(
+        "SD_NEGATIVE_PROMPT",
+        "missing finger, extra digits, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
+    )
+    print(f"Using negative prompt: {negative_prompt}")
 
     latents = sd.generate_latents(
-        os.environ.get(
-            "PROMPT",
-            "portrait of a cute kitten, leonardo da vinci style"
-        ),
+        prompt,
         n_images=1,
         cfg_weight=cfg,
         num_steps=steps,
         seed=seed,
-        negative_text=os.environ.get(
-            "NEGATIVE_PROMPT",
-            "missing finger, extra digits, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry"
-        ),
+        negative_text=negative_prompt,
     )
+    print("Generating image...")
     for x_t in tqdm(latents, total=steps):
         mx.eval(x_t)
 
