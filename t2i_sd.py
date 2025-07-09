@@ -7,18 +7,25 @@ from tqdm import tqdm
 import random
 from mlx import nn
 import os
+import argparse
 
 from stable_diffusion import StableDiffusion
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-o", "--output", help="output file name", default="output.png")
+    args = parser.parse_args()
+
+    main_model_id = "NovelAI/nai-anime-v2"
+    print(f"Loading model {main_model_id}...")
     sd = StableDiffusion(
-        unet_model_id="NovelAI/nai-anime-v2",
-        vae_model_id="NovelAI/nai-anime-v2",
+        unet_model_id=main_model_id,
+        vae_model_id=main_model_id,
         float16=True,
-    )    
+    )
     nn.quantize(sd.unet, group_size=32, bits=8)
     sd.ensure_models_are_loaded()
-    print("Loaded models successfully!")
+    print("Loaded model successfully!")
     cfg = 7.5
     steps = 50
     seed = int(os.environ.get("SEED", 0))
@@ -61,8 +68,11 @@ if __name__ == "__main__":
     x = x.reshape(1 * H, B // 1 * W, C)
     x = (x * 255).astype(mx.uint8)
 
-    im = Image.fromarray(np.array(x))
-    im.save("output.png")
-
     print(f"Peak memory used for the unet: {peak_mem_unet:.3f}GB")
     print(f"Peak memory used overall:      {peak_mem_overall:.3f}GB")
+
+    im = Image.fromarray(np.array(x))
+    print(f"Saving image as {args.output}.")
+    im.save(args.output)
+
+    
