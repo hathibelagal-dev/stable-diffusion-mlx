@@ -11,6 +11,7 @@ from .model_io import (
     load_text_encoder,
     load_tokenizer,
     load_unet,
+    load_models_from_safetensors,
 )
 from .sampler import SimpleEulerSampler
 
@@ -22,15 +23,29 @@ class StableDiffusion:
         vae_model_id: str = "CompVis/stable-diffusion-v1-4",
         text_encoder_model_id: str = "CompVis/stable-diffusion-v1-4",
         tokenizer_model_id: str = "CompVis/stable-diffusion-v1-4",
+        checkpoint_path: Optional[str] = None,
+        base_model_id: str = "runwayml/stable-diffusion-v1-5",
+        use_vae_from_checkpoint: bool = False,
         float16: bool = False,
     ):
         self.dtype = mx.float16 if float16 else mx.float32
-        self.diffusion_config = load_diffusion_config(text_encoder_model_id)
-        self.unet = load_unet(unet_model_id, float16)
-        self.text_encoder = load_text_encoder(text_encoder_model_id, float16)
-        self.autoencoder = load_autoencoder(vae_model_id, False)
-        self.sampler = SimpleEulerSampler(self.diffusion_config)
-        self.tokenizer = load_tokenizer(tokenizer_model_id)
+        if checkpoint_path:
+            self.diffusion_config = load_diffusion_config(base_model_id)
+            self.unet, self.text_encoder, self.autoencoder = load_models_from_safetensors(
+                checkpoint_path,
+                base_model_id=base_model_id,
+                float16=float16,
+                use_vae_from_checkpoint=use_vae_from_checkpoint,
+            )
+            self.sampler = SimpleEulerSampler(self.diffusion_config)
+            self.tokenizer = load_tokenizer(base_model_id)
+        else:
+            self.diffusion_config = load_diffusion_config(text_encoder_model_id)
+            self.unet = load_unet(unet_model_id, float16)
+            self.text_encoder = load_text_encoder(text_encoder_model_id, float16)
+            self.autoencoder = load_autoencoder(vae_model_id, False)
+            self.sampler = SimpleEulerSampler(self.diffusion_config)
+            self.tokenizer = load_tokenizer(tokenizer_model_id)
 
     def ensure_models_are_loaded(self):
         mx.eval(self.unet.parameters())

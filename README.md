@@ -20,6 +20,26 @@ python3 t2i_sd.py
 
 The above command will generate an image named `output.png`. You can use the `-o` parameter to change the output filename.
 
+### Using a Civitai SD1.5 checkpoint
+
+Download a SD1.5 `.safetensors` checkpoint and run:
+
+```bash
+python3 t2i_sd.py --ckpt /path/to/model.safetensors
+```
+
+You can override the base config/tokenizer source if needed:
+
+```bash
+python3 t2i_sd.py --ckpt /path/to/model.safetensors --base-model runwayml/stable-diffusion-v1-5
+```
+
+By default, the VAE is loaded from the base model to maximize compatibility. If your checkpoint includes a custom VAE and you want to use it, pass:
+
+```bash
+python3 t2i_sd.py --ckpt /path/to/model.safetensors --use-ckpt-vae
+```
+
 ## Example Outputs
 
 The performance is decent. You can get a good image with `SD_STEPS` set to around 28. Even with `SD_STEPS` set to 50 (default), it only takes about 50 seconds to generate an image.

@@ -15,19 +15,46 @@ def cli_mode():
     parser = argparse.ArgumentParser()
     parser.add_argument("-o", "--output", help="output file name", default="output.png")
     parser.add_argument("-n", "--no-novelai", help="don't use NovelAI anime model", action="store_true")
+    parser.add_argument(
+        "--ckpt",
+        help="path to a SD1.5 .safetensors checkpoint (Civitai, etc.)",
+        default=None,
+    )
+    parser.add_argument(
+        "--base-model",
+        help="HF model id for configs/tokenizer when using --ckpt",
+        default="runwayml/stable-diffusion-v1-5",
+    )
+    parser.add_argument(
+        "--use-ckpt-vae",
+        help="use the VAE from the checkpoint (may be incompatible for some models)",
+        action="store_true",
+    )
     args = parser.parse_args()
 
-    if args.no_novelai:
-        main_model_id = "CompVis/stable-diffusion-v1-4"
+    if args.ckpt:
+        main_model_id = None
     else:
-        main_model_id = "NovelAI/nai-anime-v2"
+        if args.no_novelai:
+            main_model_id = "CompVis/stable-diffusion-v1-4"
+        else:
+            main_model_id = "NovelAI/nai-anime-v2"
 
-    print(f"Loading model {main_model_id}...")
-    sd = StableDiffusion(
-        unet_model_id=main_model_id,
-        vae_model_id=main_model_id,
-        float16=True,
-    )
+    if args.ckpt:
+        print(f"Loading checkpoint {args.ckpt}...")
+        sd = StableDiffusion(
+            checkpoint_path=args.ckpt,
+            base_model_id=args.base_model,
+            use_vae_from_checkpoint=args.use_ckpt_vae,
+            float16=True,
+        )
+    else:
+        print(f"Loading model {main_model_id}...")
+        sd = StableDiffusion(
+            unet_model_id=main_model_id,
+            vae_model_id=main_model_id,
+            float16=True,
+        )
     nn.quantize(sd.unet, group_size=32, bits=8)
     sd.ensure_models_are_loaded()
     print("Loaded model successfully!")
@@ -89,4 +116,3 @@ def cli_mode():
 
 if __name__ == "__main__":
     cli_mode()
-
