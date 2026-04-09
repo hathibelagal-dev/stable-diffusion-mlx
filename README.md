@@ -22,7 +22,7 @@ The above command will generate an image named `output.png`. You can use the `-o
 
 ### Using a Civitai SD1.5 checkpoint
 
-Download a SD1.5 `.safetensors` checkpoint and run:
+Most SD1.5 models from CivitAI are now supported. Download a SD1.5 `.safetensors` checkpoint and run:
 
 ```bash
 python3 t2i_sd.py --ckpt /path/to/model.safetensors
